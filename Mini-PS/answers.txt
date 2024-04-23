@@ -1,0 +1,64 @@
+An Important Note- There are no coding or programming problems in Mini-PS.
+
+1.
+The applicable concrete instance of Fly(p, from, to) in the state is described by At(P1, JFK) ^ At(P2, SFO) ^ Plane(P1) ^ Plane(P2) ^ Airport(JFK) ^ Airport(SFO). Here are the applicable concrete instances of Fly(p, from, to):
+
+1. Fly(P1, JFK, SFO)
+2. Fly(P1, JFK, JFK)
+3. Fly(P2, SFO, JFK) 
+4. Fly(P2, SFO, SFO)
+
+2a.
+Here are the PDDL sentences of the 6 actions of Shakey:
+
+1. Action(Go(x, y, r), 
+Precond: At(Shakey, x) ^ In(x, r) ^ In(y, r)
+Delete: At(Shakey, x)
+Add: At(Shakey, y)
+Effect: 括t(Shakey, x) ^ At(Shakey, y))
+
+2. Action(Push(b, x, y, r), 
+Precond: Box(b) ^ In(Shakey, r) ^ At(Shakey, x) ^ In(b, r) ^ At(b, x) ^ Pushable(b)
+Delete: At(Shakey, x) ^ At(b, x)
+Add: At(Shakey, y) ^ At(b, y)
+Effect: 括t(Shakey, x) ^ 括t(b, x) ^ At(Shakey, y) ^ At(b, y))
+
+3. Action(ClimbUp(x, b), 
+Precond: On(b, Floor) ^ 是n(Shakey, b) ^ On(Shakey, Floor) ^ Box(b) ^ At(b, x) ^ At(Shakey, x)
+Delete: On(Shakey, Floor) 
+Add: On(Shakey, b)
+Effect: 是n(Shakey, Floor) ^ On(Shakey, b))
+
+4. Action(ClimbDown(b, x), 
+Precond: On(Shakey, b) ^ On(b, Floor) ^ Box(b) ^ At(b, x) ^ 是n(Shakey, Floor)
+Delete: On(Shakey, b)
+Add: On(Shakey, Floor)
+Effect: 是n(Shakey, b) ^ On(Shakey, Floor))
+
+5. Action(TurnOn(s, b), 
+Precond: On(Shakey, b) ^ At(b, s)  ^ 曷urnedOn(s) ^ Box(b) 
+Delete: N/A
+Add: TurnedOn(s)
+Effect: TurnedOn(s))
+
+6. Action(TurnOff(s, b), 
+Precond: On(Shakey, b) ^ At(b, s) ^ TurnedOn(s) ^ Box(b)
+Delete: TurnedOn(s)
+Add: N/A
+Effect: 曷urnedOn(s))
+
+b.
+Here are the PDDL sentences of the initial state of Shakey:
+
+Init(In(Door1, Room1) ^ In(Door1, Corridor) ^ In(Door2, Room2) ^ In(Door2, Corridor) ^ In(Door3, Room3) ^ In(Door3, Corridor) ^ In(Door4, Room4) ^ In(Door4, Corridor) ^  In(Switch1, Room1) ^ In(Switch2, Room2) ^ In(Switch3, Room3) ^ In(Switch4, Room4) ^ Box(Box1) ^ Box(Box2) ^ Box(Box3) ^ Box(Box4) ^ At(Box1, Box1InitLoc) ^ At(Box2, Box2InitLoc) ^ At(Box3, Box3InitLoc) ^ At(Box4, Box4InitLoc) ^ In(Box1InitLoc, Room1) ^ In(Box2InitLoc, Room1) ^ In(Box3InitLoc, Room1) ^ In(Box4InitLoc, Room1) ^ In(Shakey, Room3) ^  At(Shakey, ShakeyInitLoc))
+
+Therefore, this initial state defines the world of Shakey. 
+
+c.
+Shakey needs to get Box2 into Room2 by pushing Box2 from Room1 to Room2. So, here is my plan as a series of PDDL sentences:
+
+Goal(In(Box2, Room2) ^ At(Box2, Box2NewLoc))
+
+Plan(Go(ShakeyInitLoc, Door3, Room3), Go(Door3, Door1, Corridor), Go(Door1, Box2InitLoc, Room1), Push(Box2, Box2InitLoc, Door1, Room1), Push(Box2, Door1, Door2, Corridor), Push(Box2, Door2, Box2NewLoc, Room2))
+
+Therefore, this plan will allow Shakey to push Box2 from Room1 to Room2 after Shakey goes from Room3 to Room1. So, it will achieve the goal. 
