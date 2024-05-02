@@ -152,11 +152,10 @@ def policy_evaluation(pi, U, mdp, k=20):
             U[s] = R(s) + gamma * sum([p * U[s1] for (p, s1) in T(s, pi[s])])
     return U
 
-def pDUE(mdp, episodes=1000, alpha=0.1):
+def pDUE(mdp, trails=1000, alpha=0.1):
     util = {state: 0 for state in mdp.states}
     counts = {state: 0 for state in mdp.states}
-
-    for _ in range(episodes):
+    for _ in range(trails):
         state = mdp.init
         while state not in mdp.terminals:
             action = random_policy(mdp, state)
